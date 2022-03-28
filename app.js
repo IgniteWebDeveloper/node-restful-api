@@ -20,4 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1/user', userRoutes);
 
+// use error middleware
+app.use(require('./middleware/Error'));
+
 app.listen(process.env.PORT, console.log('Listening on port 3000'));
