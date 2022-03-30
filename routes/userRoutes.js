@@ -1,31 +1,36 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
-const { 
-    getHomepage,
-    postCreateUser, 
-    loginuser
-} = require('../controllers/userController');
+const {
+  getHomepage,
+  postCreateUser,
+  loginuser,
+} = require("../controllers/userController");
+const {
+  isAuthenticatedUser,
+  isAuthorizedroles,
+} = require("../middleware/auth");
 
 /**
  * @desc Opens the user homepage
  * @route GET /api/v1/user
- * @access Public   
+ * @access Public
  */
-router.route('/').get(getHomepage);
-
+router
+  .route("/")
+  .get(isAuthenticatedUser, isAuthorizedroles("user"), getHomepage);
 
 /**
- * @desc 
+ * @desc
  * @route GET /api/v1/user/create
- * @access Public   
+ * @access Public
  */
- router.route('/create').post(postCreateUser);
+router.route("/create").post(postCreateUser);
 
- /**
- * @desc 
+/**
+ * @desc
  * @route GET /api/v1/user/login
- * @access Public   
+ * @access Public
  */
-  router.route('/login').post(loginuser);
+router.route("/login").post(loginuser);
 
 module.exports = router;
